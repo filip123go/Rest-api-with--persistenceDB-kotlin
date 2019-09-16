@@ -12,21 +12,21 @@ import javax.validation.Valid
 @RequestMapping("/api")
 class PoemController(private val poemRepo: PoemRepo) {
 
-    @GetMapping("/articles")
+    @GetMapping("/poems")
     fun getAllArticles(): List<Poem> = poemRepo.findAll()
 
-    @PostMapping("/articles")
+    @PostMapping("/poems")
     fun createNewArticle(@Valid @RequestBody poem: Poem): Poem =
             poemRepo.save(poem)
 
-    @GetMapping("/articles/{id}")
+    @GetMapping("/poems/{id}")
     fun getArticleById(@PathVariable(value = "id") articleId: Long): ResponseEntity<Poem> {
         return poemRepo.findById(articleId).map { article ->
             ResponseEntity.ok(article)
         }.orElse(ResponseEntity.notFound().build())
     }
 
-    @PutMapping("/articles/{id}")
+    @PutMapping("/poems/{id}")
     fun updateArticleById(@PathVariable(value = "id") articleId: Long,
                           @Valid @RequestBody newPoem: Poem): ResponseEntity<Poem> {
 
@@ -38,7 +38,7 @@ class PoemController(private val poemRepo: PoemRepo) {
 
     }
 
-    @DeleteMapping("/articles/{id}")
+    @DeleteMapping("/poems/{id}")
     fun deleteArticleById(@PathVariable(value = "id") articleId: Long): ResponseEntity<Void> {
 
         return poemRepo.findById(articleId).map { article  ->
